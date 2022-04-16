@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
 import "./Signup.css";
@@ -9,8 +9,9 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  const [createUserWithEmailAndPassword] =
+  const [createUserWithEmailAndPassword, user] =
     useCreateUserWithEmailAndPassword(auth);
 
   const handleEmailBlur = (event) => {
@@ -35,6 +36,9 @@ const Signup = () => {
     createUserWithEmailAndPassword(email, password);
   };
 
+  if (user) {
+    navigate("/inventory");
+  }
   return (
     <div className="form-container">
       <div className="form-wraper">
